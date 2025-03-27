@@ -1,0 +1,348 @@
+SELECT 'DROP TABLE ' || object_name || ' CASCADE CONSTRAINTS;'
+FROM   user_objects
+WHERE  object_type = 'TABLE';
+
+DROP TABLE PRODREPLY CASCADE CONSTRAINTS;
+DROP TABLE QNAREPLY CASCADE CONSTRAINTS;
+DROP TABLE MEMBERS CASCADE CONSTRAINTS;
+DROP TABLE PAYMENTS CASCADE CONSTRAINTS;
+DROP TABLE CARTS CASCADE CONSTRAINTS;
+DROP TABLE CALANDER CASCADE CONSTRAINTS;
+DROP TABLE QNA CASCADE CONSTRAINTS;
+DROP TABLE CATEGORY CASCADE CONSTRAINTS;
+DROP TABLE PRODUCTS CASCADE CONSTRAINTS;
+
+CREATE TABLE qnareply (
+	qna_revno	NUMBER(4) NOT NULL,
+	qna_content	varchar2(100) NULL,
+	user_id	varchar2(20) NULL,
+	qna_revDate	DATE NULL,
+	qna_no	number NULL
+);
+
+
+CREATE TABLE products (
+	prod_no	number NOT NULL,
+	prod_name	varchar2(100) NULL,
+	price	number NULL,
+	content	varchar2(100) NULL,
+	create_date	DATE DEFAULT sysdate,
+	image	varchar2(2000) NULL,
+	pdf	VARCHAR2(2000) NULL,
+	count	NUMBER DEFAULT 0,
+	user_id	VARCHAR2(20) NULL,
+    	page  number NULL,
+	category_no	varchar2(10)	NULL
+);
+
+
+
+CREATE TABLE prodReply (
+	rev_no	number	NOT NULL,
+	star_point	number	NULL,
+	rev_title	VARCHAR2(20)	NULL,
+	rev_create	DATE	NULL,
+	rev_content	VARCHAR2(100)	NULL,
+	user_id	VARCHAR2(20)	NOT NULL,
+	pay_no	number	NOT NULL
+);
+
+
+CREATE TABLE members (
+	user_id	VARCHAR2(20) NOT NULL,
+	user_name	VARCHAR2(20) NULL,
+	phone	VARCHAR2(20) NULL,
+	email	VARCHAR2(100) NULL,
+	birth	DATE NULL,
+	password	VARCHAR2(20) NULL,
+	user_type	VARCHAR2(10) NULL,
+	out_type	VARCHAR2(10)	DEFAULT 'no'	NULL
+);
+
+CREATE TABLE payments (
+	pay_no	number	NOT NULL,
+	price	number	NULL,
+	prod_no	number	NULL,
+	pay_date	DATE	DEFAULT sysdate,
+	user_id	varchar2(20)	NULL,
+	pay_type	varchar2(10)	NULL,
+	down_cnt	NUMBER	DEFAULT 0 
+);
+
+
+
+
+CREATE TABLE carts (
+	cart_no	number NOT NULL,
+	user_id	VARCHAR2(20) NULL,
+	prod_no	number NULL
+);
+
+CREATE TABLE calander(
+   title VARCHAR2(100),
+   start_date  VARCHAR2(60),
+   end_date VARCHAR2 (60)
+);
+
+CREATE TABLE qna (
+	qna_no	number NOT NULL,
+	qna_title	varchar2(100) NULL,
+	qna_content	varchar2(100) NULL,
+	qna_create	DATE NULL,
+	qna_cnt	number NULL,
+	user_id	varchar2(20) NULL,
+	category_no	varchar2(10)	NULL
+);
+
+
+
+CREATE TABLE category (
+	category_no	varchar2(10) NOT NULL,
+	category_name	VARCHAR2(10) NULL
+);
+ALTER TABLE qnareply ADD CONSTRAINT PK_QNAREPLY PRIMARY KEY (
+	qna_revno
+);
+
+ALTER TABLE products ADD CONSTRAINT PK_PRODUCTS PRIMARY KEY (
+	prod_no
+);
+
+ALTER TABLE prodReply ADD CONSTRAINT PK_PRODREPLY PRIMARY KEY (
+	rev_no
+);
+
+
+ALTER TABLE members ADD CONSTRAINT PK_MEMBERS PRIMARY KEY (
+	user_id
+);
+
+ALTER TABLE payments ADD CONSTRAINT PK_PAYMENTS PRIMARY KEY (
+	pay_no
+);
+
+ALTER TABLE carts ADD CONSTRAINT PK_CARTS PRIMARY KEY (
+	cart_no
+);
+
+ALTER TABLE qna ADD CONSTRAINT PK_QNA PRIMARY KEY (
+	qna_no
+);
+
+ALTER TABLE category ADD CONSTRAINT PK_CATEGORY PRIMARY KEY (
+	category_no
+);
+-- qnaReply 테이블에 30개 더미 데이터 삽입
+
+
+
+insert into carts 
+values(1,'user01',3);
+insert into carts 
+values(2,'user03',4);
+insert into carts 
+values(3,'user01',5);
+insert into carts 
+values(4,'user02',1);
+insert into carts 
+values(5,'user05',2);
+
+insert into category
+values(1,'정처기');
+insert into category
+values(2,'sqld');
+insert into category
+values(3,'정');
+insert into category
+values(4,'빅분기');
+insert into category
+values(5,'컴활');
+
+
+-- qna 테이블에 50개 더미 데이터 삽입
+INSERT INTO qna VALUES (1, '정처기 공부법', '정처기 어떻게 공부해야 할까요?', SYSDATE, 15, 'user01', '1');
+INSERT INTO qna VALUES (2, 'SQLD 시험 난이도', 'SQLD 어려운가요?', SYSDATE, 30, 'user02', '2');
+INSERT INTO qna VALUES (3, '자바 질문', '자바에서 클래스 사용하는 법', SYSDATE, 20, 'user03', '3');
+INSERT INTO qna VALUES (4, '데이터베이스 개념', 'DBMS와 RDBMS 차이', SYSDATE, 5, 'user04', '1');
+INSERT INTO qna VALUES (5, '빅데이터 분석기사', '빅데이터 시험 난이도', SYSDATE, 10, 'user05', '4');
+
+INSERT INTO qna VALUES (6, 'HTML 기본 문법', 'HTML 태그에 대해 궁금합니다.', SYSDATE, 8, 'user01', '2');
+INSERT INTO qna VALUES (7, 'CSS Flexbox', 'Flexbox로 정렬하는 법을 알려주세요.', SYSDATE, 12, 'user02', '3');
+INSERT INTO qna VALUES (8, 'JavaScript 비동기 처리', 'async/await를 어떻게 쓰나요?', SYSDATE, 18, 'user03', '4');
+INSERT INTO qna VALUES (9, 'Spring Boot 사용법', 'Spring Boot 프로젝트 설정법', SYSDATE, 22, 'user04', '1');
+INSERT INTO qna VALUES (10, 'MySQL과 Oracle 차이', '두 DBMS의 차이점은?', SYSDATE, 6, 'user05', '2');
+
+INSERT INTO qna VALUES (11, 'React 상태 관리', 'Redux와 Context API 차이', SYSDATE, 9, 'user01', '3');
+INSERT INTO qna VALUES (12, 'Vue.js와 React 비교', '어떤 걸 배워야 하나요?', SYSDATE, 14, 'user02', '4');
+INSERT INTO qna VALUES (13, 'Node.js Express 기본', 'Express로 서버 만드는 법', SYSDATE, 21, 'user03', '1');
+INSERT INTO qna VALUES (14, 'Python 웹 크롤링', 'BeautifulSoup 사용법', SYSDATE, 17, 'user04', '2');
+INSERT INTO qna VALUES (15, 'Django와 Flask 비교', '어떤 걸 배우는 게 좋을까요?', SYSDATE, 25, 'user05', '3');
+
+INSERT INTO qna VALUES (16, 'Git 사용법', 'Git과 GitHub 차이점', SYSDATE, 7, 'user01', '4');
+INSERT INTO qna VALUES (17, 'Linux 명령어', '자주 사용하는 명령어 추천', SYSDATE, 11, 'user02', '1');
+INSERT INTO qna VALUES (18, 'Docker 기본 개념', 'Docker 컨테이너 개념 설명', SYSDATE, 20, 'user03', '2');
+INSERT INTO qna VALUES (19, 'Kubernetes 개념', 'K8s가 무엇인가요?', SYSDATE, 30, 'user04', '3');
+INSERT INTO qna VALUES (20, 'AWS EC2 설정', 'EC2에 배포하는 법', SYSDATE, 13, 'user05', '4');
+
+INSERT INTO qna VALUES (21, 'Nginx 리버스 프록시', '설정 방법이 궁금합니다.', SYSDATE, 16, 'user01', '1');
+INSERT INTO qna VALUES (22, 'CI/CD 개념', 'Jenkins와 GitHub Actions 차이', SYSDATE, 23, 'user02', '2');
+INSERT INTO qna VALUES (23, 'Kafka 기본 개념', 'Kafka가 뭔가요?', SYSDATE, 28, 'user03', '3');
+INSERT INTO qna VALUES (24, 'Redis와 Memcached 비교', '둘의 차이점이 궁금합니다.', SYSDATE, 9, 'user04', '4');
+INSERT INTO qna VALUES (25, 'GraphQL vs REST API', '어떤 걸 사용해야 할까요?', SYSDATE, 15, 'user05', '1');
+
+INSERT INTO qna VALUES (26, 'TypeScript 기본 문법', 'JS와 TS 차이', SYSDATE, 10, 'user01', '2');
+INSERT INTO qna VALUES (27, 'RxJS 개념', 'RxJS를 어디에 쓰나요?', SYSDATE, 18, 'user02', '3');
+INSERT INTO qna VALUES (28, 'NestJS 사용법', 'NestJS 프로젝트 설정법', SYSDATE, 24, 'user03', '4');
+INSERT INTO qna VALUES (29, 'Flutter와 React Native', '모바일 개발 추천', SYSDATE, 27, 'user04', '1');
+INSERT INTO qna VALUES (30, 'SwiftUI 기본 개념', 'SwiftUI 배우기 좋은 자료 추천', SYSDATE, 12, 'user05', '2');
+
+INSERT INTO qna VALUES (31, 'Android Jetpack', 'Jetpack이 뭔가요?', SYSDATE, 14, 'user01', '3');
+INSERT INTO qna VALUES (32, 'C++ STL', 'STL이 뭔가요?', SYSDATE, 22, 'user02', '4');
+INSERT INTO qna VALUES (33, 'Rust 기본 문법', 'Rust 공부법', SYSDATE, 29, 'user03', '1');
+INSERT INTO qna VALUES (34, 'Go 언어 사용법', 'Go를 어디에 쓰나요?', SYSDATE, 17, 'user04', '2');
+INSERT INTO qna VALUES (35, 'AI와 머신러닝 개념', 'AI 공부 어디서 시작할까요?', SYSDATE, 26, 'user05', '3');
+
+INSERT INTO qna VALUES (36, 'TensorFlow vs PyTorch', 'AI 프레임워크 추천', SYSDATE, 30, 'user01', '4');
+INSERT INTO qna VALUES (37, '데이터 사이언스 개념', '데이터 분석 어디서 시작할까요?', SYSDATE, 19, 'user02', '1');
+INSERT INTO qna VALUES (38, 'SQL 최적화', '쿼리 성능을 높이는 방법', SYSDATE, 16, 'user03', '2');
+INSERT INTO qna VALUES (39, 'NoSQL과 RDBMS 비교', '언제 NoSQL을 써야 하나요?', SYSDATE, 11, 'user04', '3');
+INSERT INTO qna VALUES (40, '마이크로서비스 개념', 'MSA를 어디에 적용하나요?', SYSDATE, 21, 'user05', '4');
+
+INSERT INTO qna VALUES (41, '애자일 개발 방법론', 'Scrum과 Kanban 차이', SYSDATE, 20, 'user01', '1');
+INSERT INTO qna VALUES (42, '블록체인 개념', '블록체인이 뭔가요?', SYSDATE, 25, 'user02', '2');
+INSERT INTO qna VALUES (43, 'VR과 AR 차이', '어떤 기술이 유망한가요?', SYSDATE, 23, 'user03', '3');
+INSERT INTO qna VALUES (44, '컴퓨터 네트워크 기본', 'OSI 7계층 설명', SYSDATE, 18, 'user04', '4');
+INSERT INTO qna VALUES (45, '정보보안 개념', '보안 공부 어디서 시작할까요?', SYSDATE, 28, 'user05', '1');
+
+INSERT INTO qna VALUES (46, 'IoT 개념', 'IoT 기초 공부법', SYSDATE, 22, 'user01', '2');
+INSERT INTO qna VALUES (47, '로봇공학 개론', '로봇 개발 어디서 시작할까요?', SYSDATE, 27, 'user02', '3');
+INSERT INTO qna VALUES (48, '양자 컴퓨팅 개념', '양자 컴퓨터는 뭔가요?', SYSDATE, 29, 'user03', '4');
+INSERT INTO qna VALUES (49, '자율주행 기술', '자율주행 AI 공부법', SYSDATE, 24, 'user04', '1');
+INSERT INTO qna VALUES (50, '우주 개발과 AI', '우주 개발에서 AI 활용 사례', SYSDATE, 26, 'user05', '2');
+
+INSERT INTO qnaReply VALUES (1, '정처기 공부는 기출 문제를 많이 풀어보는 것이 중요합니다.', 'user02', SYSDATE, 1);
+INSERT INTO qnaReply VALUES (2, 'SQLD는 개념이 중요해요. 문제를 풀면서 이해하는 것이 좋아요.', 'user03', SYSDATE, 2);
+INSERT INTO qnaReply VALUES (3, '자바 클래스는 객체지향 개념을 이해하는 것이 중요합니다.', 'user04', SYSDATE, 3);
+INSERT INTO qnaReply VALUES (4, 'DBMS와 RDBMS의 차이는 관계형 모델을 사용하느냐의 차이입니다.', 'user05', SYSDATE, 4);
+INSERT INTO qnaReply VALUES (5, '빅데이터 시험은 실무 경험이 있으면 상대적으로 쉽습니다.', 'user01', SYSDATE, 5);
+INSERT INTO qnaReply VALUES (6, 'HTML 태그를 직접 작성해보면서 연습하세요.', 'user02', SYSDATE, 6);
+INSERT INTO qnaReply VALUES (7, 'CSS Flexbox는 부모 요소와 자식 요소의 관계를 잘 이해해야 합니다.', 'user03', SYSDATE, 7);
+INSERT INTO qnaReply VALUES (8, 'JavaScript의 async/await는 프로미스를 더 쉽게 사용할 수 있게 해줍니다.', 'user04', SYSDATE, 8);
+INSERT INTO qnaReply VALUES (9, 'Spring Boot는 설정이 간단해서 빠르게 개발할 수 있어요.', 'user05', SYSDATE, 9);
+INSERT INTO qnaReply VALUES (10, 'MySQL과 Oracle의 차이는 가격과 지원 기능에서 차이가 납니다.', 'user01', SYSDATE, 10);
+INSERT INTO qnaReply VALUES (11, '리눅스 명령어는 직접 타이핑하면서 익히는 게 제일 좋아요.', 'user02', SYSDATE, 1);
+INSERT INTO qnaReply VALUES (12, '네트워크 개념을 잡을 때 OSI 7계층을 이해하는 것이 중요합니다.', 'user03', SYSDATE, 2);
+INSERT INTO qnaReply VALUES (13, '파이썬 기초는 문법을 먼저 익히고 프로젝트를 해보는 게 좋아요.', 'user04', SYSDATE, 3);
+INSERT INTO qnaReply VALUES (14, '자료구조는 알고리즘 문제를 풀면서 함께 공부하는 것이 효과적입니다.', 'user05', SYSDATE, 4);
+INSERT INTO qnaReply VALUES (15, 'Docker 사용법을 익히면 개발 환경을 쉽게 관리할 수 있어요.', 'user01', SYSDATE, 5);
+INSERT INTO qnaReply VALUES (16, 'React는 상태 관리를 잘 이해해야 효율적인 개발이 가능합니다.', 'user02', SYSDATE, 6);
+INSERT INTO qnaReply VALUES (17, 'Vue.js는 배우기 쉽고 가볍게 사용할 수 있어서 좋아요.', 'user03', SYSDATE, 7);
+INSERT INTO qnaReply VALUES (18, 'Kubernetes를 배우면 대규모 서비스를 배포하는 데 도움이 됩니다.', 'user04', SYSDATE, 8);
+INSERT INTO qnaReply VALUES (19, 'AWS의 기본 서비스는 EC2, S3, RDS부터 익히면 좋아요.', 'user05', SYSDATE, 9);
+INSERT INTO qnaReply VALUES (20, 'CI/CD는 자동화된 배포 환경을 구축하는 데 필수적입니다.', 'user01', SYSDATE, 10);
+INSERT INTO qnaReply VALUES (21, 'NoSQL은 스키마가 유연해서 특정 상황에서 유용하게 사용할 수 있어요.', 'user02', SYSDATE, 1);
+INSERT INTO qnaReply VALUES (22, 'JPA를 사용하면 SQL을 직접 다루지 않아도 쉽게 DB 작업이 가능합니다.', 'user03', SYSDATE, 2);
+INSERT INTO qnaReply VALUES (23, 'Spring Security를 사용하면 보안 기능을 쉽게 추가할 수 있어요.', 'user04', SYSDATE, 3);
+INSERT INTO qnaReply VALUES (24, 'TypeScript는 JavaScript보다 정적 타입을 제공해서 안정성이 높아요.', 'user05', SYSDATE, 4);
+INSERT INTO qnaReply VALUES (25, 'Kafka를 사용하면 대량의 데이터를 빠르게 처리할 수 있어요.', 'user01', SYSDATE, 5);
+INSERT INTO qnaReply VALUES (26, 'Redis는 빠른 캐시 저장소로 활용됩니다.', 'user02', SYSDATE, 6);
+INSERT INTO qnaReply VALUES (27, 'Elasticsearch는 로그 분석과 검색 시스템에 많이 사용됩니다.', 'user03', SYSDATE, 7);
+INSERT INTO qnaReply VALUES (28, 'GraphQL은 REST보다 유연하게 데이터를 요청할 수 있습니다.', 'user04', SYSDATE, 8);
+INSERT INTO qnaReply VALUES (29, 'RabbitMQ는 메시지 큐 시스템으로 비동기 처리가 가능합니다.', 'user05', SYSDATE, 9);
+INSERT INTO qnaReply VALUES (30, 'Rust는 메모리 안전성이 뛰어난 시스템 프로그래밍 언어입니다.', 'user01', SYSDATE, 10);
+
+
+insert into members
+values('user01','정은애','010-1111-1111','pubao47@gmail.com','2000-08-08','1111','user','no');
+insert into members
+values('user02','이민영','010-2222-2222','gmail@gmail.com','1999-08-08','2222','admin','no');
+insert into members
+values('user03','고영서','010-3333-3333','naver@naver.com','1998-08-08','3333','user','no');
+insert into members
+values('user04','신현욱','010-5555-5555','daum@daum.com','1997-08-08','5555','admin','no');
+insert into members
+values('user05','포걸즈','010-6666-6666','qwer@gmail.com','1996-03-24','6666','user','no');
+
+INSERT INTO prodReply
+VALUES (1,0,'하이',sysdate,'안녕','user01',1);
+INSERT INTO prodReply
+VALUES (2,0,'하이',sysdate,'안녕','user02',1);
+INSERT INTO prodReply
+VALUES (3,0,'하이',sysdate,'안녕','user02',1);
+INSERT INTO prodReply
+VALUES (4,0,'하이',sysdate,'안녕','user02',1);
+INSERT INTO prodReply
+VALUES (5,0,'하이',sysdate,'안녕','user02',1);
+
+INSERT INTO payments
+VALUES (1,1000,1,sysdate,'user01','ready',0);
+INSERT INTO payments
+VALUES (2,1000,2,sysdate,'user01','ready',0);
+INSERT INTO payments
+VALUES (3,1000,3,sysdate,'user01','ready',0);
+INSERT INTO payments
+VALUES (4,1000,4,sysdate,'user01','ready',0);
+INSERT INTO payments
+VALUES (5,1000,5,sysdate,'user01','ready',0);
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('회의', '2025-03-18 09:00:00', '2025-03-18 10:00:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('프로젝트 마감', '2025-03-20 23:59:00', '2025-03-20 23:59:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('팀 미팅', '2025-03-22 14:00:00', '2025-03-22 15:30:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('개인 일정', '2025-03-25 10:00:00', '2025-03-25 12:00:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('워크숍', '2025-03-28 13:00:00', '2025-03-28 17:00:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('기술 세미나', '2025-04-02 10:30:00', '2025-04-02 12:30:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('친구 모임', '2025-04-05 19:00:00', '2025-04-05 22:00:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('운동 시간', '2025-04-08 07:00:00', '2025-04-08 08:00:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('업무 보고', '2025-04-10 16:00:00', '2025-04-10 17:00:00');
+INSERT INTO calander (title, start_date, end_date) VALUES 
+('휴가', '2025-04-15 00:00:00', '2025-04-17 23:59:00');
+
+INSERT INTO products VALUES (1, '2015 정처기 기출', 10000, '내용1', '2025-3-14', '2015 정처기 기출.jpg', '2016 sql 기출문제.pdf', 1, 'user01', 1, 1);
+INSERT INTO products VALUES (2, '2015 컴활 기출문제', 12000, '내용2', '2025-3-14', '2015 컴활 기출문제.jpg', '2015 컴활 기출문제.pdf', 2, 'user02', 1, 2);
+INSERT INTO products VALUES (3, '2016 sql 기출문제', 13000, '내용3', '2025-3-14', '2016 sql 기출문제.jpg', '2022 sql 기출문제.pdf', 3, 'user03', 1, 3);
+INSERT INTO products VALUES (4, '2016 산업기사 기출', 14000, '내용4', '2025-3-14', '2016 산업기사 기출.jpg', '2016 정처기 기출문제.pdf', 4, 'user04', 1, 4);
+INSERT INTO products VALUES (5, '2016 정처기 기출문제', 15000, '내용5', '2025-3-14', '2016 정처기 기출문제.jpg', '2018 정처기 기출문제.pdf', 5, 'user05', 1, 5);
+INSERT INTO products VALUES (6, '2016 컴활 기출문제', 16000, '내용6', '2025-3-14', '2016 컴활 기출문제.jpg', '2019 정처기 기출문제.pdf', 6, 'user01', 1, 1);
+INSERT INTO products VALUES (7, '2017 sql 기출', 17000, '내용7', '2025-3-14', '2017 sql 기출.jpg', '2015 컴활 기출문제.pdf', 7, 'user02', 1, 2);
+INSERT INTO products VALUES (8, '2017 산업기사 모의', 18000, '내용8', '2025-3-14', '2017 산업기사 모의.jpg', '2016 컴활 기출문제.pdf', 8, 'user03', 1, 3);
+INSERT INTO products VALUES (9, '2017 정처기 기출문제', 19000, '내용9', '2025-3-14', '2017 정처기 기출문제.jpg', '2023 컴활 기출문제.pdf', 9, 'user04', 1, 4);
+INSERT INTO products VALUES (10, '2017 컴활 기출문제', 20000, '내용10', '2025-3-14', '2017 컴활 기출문제.jpg', '2025 컴활 모의고사.pdf', 10, 'user05', 1, 5);
+INSERT INTO products VALUES (11, '2018 산업기사 기출', 21000, '내용11', '2025-3-14', '2018 산업기사 기출.jpg', '2016 sql 기출문제.pdf', 11, 'user01', 1, 1);
+INSERT INTO products VALUES (12, '2018 정처기 기출문제', 22000, '내용12', '2025-3-14', '2018 정처기 기출문제.jpg', '2017.pdf', 12, 'user02', 1, 2);
+INSERT INTO products VALUES (13, '2018 정처기 모의', 23000, '내용13', '2025-3-14', '2018 정처기 모의.jpg', 'sql 기출 2022 sql 기출문제.pdf', 13, 'user03', 1, 3);
+INSERT INTO products VALUES (14, '2019 산업기사 모의', 24000, '내용14', '2025-3-14', '2019 산업기사 모의.jpg', '2016 정처기 기출문제.pdf', 14, 'user04', 1, 4);
+INSERT INTO products VALUES (15, '2019 정처기 기출문제', 25000, '내용15', '2025-3-14', '2019 정처기 기출문제.jpg', '2018 정처기 기출문제.pdf', 15, 'user05', 1, 5);
+INSERT INTO products VALUES (16, '2020 산업기사 기출', 26000, '내용16', '2025-3-14', '2020 산업기사 기출.jpg', '2019 정처기 기출문제.pdf', 16, 'user01', 1, 1);
+INSERT INTO products VALUES (17, '2020 정처기 기출', 27000, '내용17', '2025-3-14', '2020 정처기 기출.jpg', '2015 컴활 기출문제.pdf', 17, 'user02', 1, 2);
+INSERT INTO products VALUES (18, '2020 정처기 모의고사', 28000, '내용18', '2025-3-14', '2020 정처기 모의고사.jpg', '2016 컴활 기출문제.pdf', 18, 'user03', 1, 3);
+INSERT INTO products VALUES (19, '2021 정처기 기출문제', 29000, '내용19', '2025-3-14', '2021 정처기 기출문제.jpg', '2023 컴활 기출문제.pdf', 19, 'user04', 1, 4);
+INSERT INTO products VALUES (20, '2022 sql 기출문제', 30000, '내용20', '2025-3-14', '2022 sql 기출문제.jpg', '2025 컴활 모의고사.pdf', 20, 'user05', 1, 5);
+INSERT INTO products VALUES (21, '2022 산업기사 기출', 31000, '내용21', '2025-3-14', '2022 산업기사 기출.jpg', '2016 정처기 기출문제.pdf', 21, 'user01', 1, 1);
+INSERT INTO products VALUES (22, '2023 sql 기출문제', 32000, '내용22', '2025-3-14', '2023 sql 기출문제.jpg', '2018 정처기 기출문제.pdf', 22, 'user02', 1, 2);
+INSERT INTO products VALUES (23, '2023 sql 모의', 33000, '내용23', '2025-3-14', '2023 sql 모의.jpg', '2019 정처기 기출문제.pdf', 23, 'user03', 1, 3);
+INSERT INTO products VALUES (24, '2023 산업기사 모의', 34000, '내용24', '2025-3-14', '2023 산업기사 모의.jpg', '2015 컴활 기출문제.pdf', 24, 'user04', 1, 4);
+INSERT INTO products VALUES (25, '2023 정처기 모의고사', 35000, '내용25', '2025-3-14', '2023 정처기 모의고사.jpg', '2016 컴활 기출문제.pdf', 25, 'user05', 1, 5);
+INSERT INTO products VALUES (26, '2023 컴활 기출문제', 36000, '내용26', '2025-3-14', '2023 컴활 기출문제.jpg', '2023 컴활 기출문제.pdf', 26, 'user01', 1, 1);
+INSERT INTO products VALUES (27, '2024 sqld 기출문제', 37000, '내용27', '2025-3-14', '2024 sqld 기출문제.jpg', '2025 컴활 모의고사.pdf', 27, 'user02', 1, 2);
+INSERT INTO products VALUES (28, '2024 정처기 모의고사', 38000, '내용28', '2025-3-14', '2024 정처기 모의고사.jpg', '2016 sql 기출문제.pdf', 28, 'user03', 1, 3);
+INSERT INTO products VALUES (29, '2024 컴활 모의고사', 39000, '내용29', '2025-3-14', '2024 컴활 모의고사.jpg', '2017.pdf', 29, 'user04', 1, 4);
+INSERT INTO products VALUES (30, '2025 sqld 모의고사', 40000, '내용30', '2025-3-14', '2025 sqld 모의고사.jpg', 'sql 기출 2022 sql 기출문제.pdf', 30, 'user05', 1, 5);
+INSERT INTO products VALUES (31, '2024 정처기 모의고사', 41000, '내용31', '2025-3-14', '2024 정처기 모의고사.jpg', '2016 정처기 기출문제.pdf', 31, 'user01', 1, 1);
+INSERT INTO products VALUES (32, '2024 컴활 모의고사', 42000, '내용32', '2025-3-14', '2024 컴활 모의고사.jpg', '2018 정처기 기출문제.pdf', 32, 'user02', 1, 2);
+INSERT INTO products VALUES (33, '2025 sqld 모의고사', 43000, '내용33', '2025-3-14', '2025 sqld 모의고사.jpg', '2019 정처기 기출문제.pdf', 33, 'user03', 1, 3);
+INSERT INTO products VALUES (34, '2025 컴활 모의고사', 44000, '내용34', '2025-3-14', '2025 컴활 모의고사.jpg', '2015 컴활 기출문제.pdf', 34, 'user04', 1, 4);
+INSERT INTO products VALUES (35, '2016 sql 기출문제', 45000, '내용35', '2025-3-14', '2016 sql 기출문제.jpg', '2016 컴활 기출문제.pdf', 35, 'user05', 1, 5);
+INSERT INTO products VALUES (36, '2017 산업기사 모의', 46000, '내용36', '2025-3-14', '2017 산업기사 모의.jpg', '2023 컴활 기출문제.pdf', 36, 'user01', 1, 1);
+INSERT INTO products VALUES (37, '2018 산업기사 기출', 47000, '내용37', '2025-3-14', '2018 산업기사 기출.jpg', '2025 컴활 모의고사.pdf', 37, 'user02', 1, 2);
+INSERT INTO products VALUES (38, '2019 산업기사 모의', 48000, '내용38', '2025-3-14', '2019 산업기사 모의.jpg', '2016 sql 기출문제.pdf', 38, 'user03', 1, 3);
+INSERT INTO products VALUES (39, '2020 산업기사 기출', 49000, '내용39', '2025-3-14', '2020 산업기사 기출.jpg', '2017.pdf', 39, 'user04', 1, 4);
+INSERT INTO products VALUES (40, '2021 정처기 기출문제', 50000, '내용40', '2025-3-14', '2021 정처기 기출문제.jpg', 'sql 기출 2022 sql 기출문제.pdf', 40, 'user05', 1, 5);
+commit;
